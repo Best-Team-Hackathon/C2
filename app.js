@@ -72,12 +72,13 @@ app.delete('/workers/:id',async(req,res)=>{
 
 
 
-
-
-
-
-
-
+app.get('/projects/new', (req, res)=>{
+    res.render('project/new')
+})
+app.post('/projects', (req, res)=>{
+    console.log(req.body);
+    res.send('made postttttt')
+})
 
 
 
