@@ -8,12 +8,20 @@ const contractorsSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: true,
-        min: 0
     },
-    // category: {
-    //     type: String,
-    //     lowercase: true,
-    // }
+    gender:{
+        type: String,
+        required: true,
+    },
+    adhaar:{
+        type: Number,
+        required: true,
+    },
+    phone:{
+        type: Number,
+        required: true
+    }
+    
 })
 
 const Contractor = mongoose.model('Contractors', contractorsSchema);

@@ -1,0 +1,15 @@
+<% layout('layouts/boilerplate') %> 
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js'></script>
+
+<!-- MAP -->
+<div id='map' class="mb-5" style='width: 100%; height: 500px;'></div>
+
+<a class="btn btn-primary btn-lg" href="/projects/new">Add new Project</a>
+<script>
+    const mapToken =  '<%- process.env.MAPBOX_TOKEN %>';
+    const projects =  <%- JSON.stringify(projects) %>
+    console.log(projects);
+</script>
+<script src="/js/showPageMap.js"></script>
