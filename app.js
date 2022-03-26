@@ -4,6 +4,8 @@ const mongoose  = require('mongoose');
 const app = express();
 const path = require('path')
 const ejsMate = require('ejs-mate')
+const axios = require('axios')
+const fs = require('fs')
 
 const Worker  = require('./models/worker')
 const Contractor = require('./models/contractor')
@@ -134,6 +136,9 @@ app.delete('/contractors/:id',async(req,res)=>{
     await Contractor.findByIdAndDelete(id);
     res.redirect('/contractors');
 })
+
+
+
 
 
 
