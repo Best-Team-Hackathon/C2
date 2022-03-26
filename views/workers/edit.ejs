@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate') %> 
+    <div class="row">
+        <h1 class="text-center">
+            Update Worker Profile
+        </h1>
+        <div class="col-6 offset-3">
+            <form action="/workers/<%= worker._id %>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <label for="title">Name</label>
+                    <input type="text" class="form-control" name="worker[name]" id="title" placeholder="" required value="<%= worker.name %> ">
+
+                    <label for="title">age</label>
+                    <input type="number" class="form-control" name="worker[age]" id="title" placeholder="<%= worker.age %>" required value="<%= worker.age %>">
+
+                    <label for="title">Gender</label>
+                    <input type="text" class="form-control" name="worker[gender]" id="title" placeholder="" required value="<%= worker.gender %> ">
+
+                    <label for="title">Mobile no.</label>
+                    <input type="number" class="form-control" name="worker[phone]" id="title" placeholder="<%= worker.phone %>" required value="<%= worker.phone %>">
+
+                    <label for="title">Aadhar Card no.</label>
+                    <input type="number" class="form-control" name="worker[adhaar]" id="title" placeholder="<%= worker.adhaar %>" required value="<%= worker.adhaar %>">
+
+                </div>
+                <!-- <div class="mb-3">
+                    <button class="btn btn-success">Create</button>
+                </div> -->
+                <div class="mb-3">
+                    <button class="btn btn-info">Update Worker</button>
+                </div>
+                
+            </form>
+            <form action="/workers/<%= worker._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">Delete</button>
+            </form>
+           
+        </div>
+
+    </div>

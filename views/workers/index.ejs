@@ -1,0 +1,30 @@
+<!-- <% layout('layouts/boilerplate') %> 
+    <h1>All Workers</h1>
+    <ul>
+        <% for(let worker of workers){ %>
+            <li><a href="/workers/<%= worker._id %> "><%= worker.name %></a></li>
+        <% } %> 
+    </ul> -->
+
+    <% layout('layouts/boilerplate') %> 
+    <h1>All worker</h1>
+    <div>
+        <a href="/workers/new">Add new worker</a>
+    </div>
+    <ul>
+        <% for(let worker of workers){ %>
+            <div class="card" mb-3 >
+                <div class="row">
+                    
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= worker.name %> </h5>
+                            <p class="card-text"><%= worker.age %> </p>
+                            <a href="/workers/<%= worker._id %>/edit" class="btn btn-primary">Edit </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }%> 
+    </ul>
+
