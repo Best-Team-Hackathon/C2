@@ -1,0 +1,24 @@
+
+
+    <% layout('layouts/boilerplate') %> 
+    <h1>All Contractors</h1>
+    <div>
+        <a href="/contractors/new">Add new contractor</a>
+    </div>
+    <ul>
+        <% for(let contractor of contractors){ %>
+            <div class="card" mb-3 >
+                <div class="row">
+                    
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= contractor.name %> </h5>
+                            <p class="card-text"><%= contractor.age %> </p>
+                            <a href="/contractors/<%= contractor._id %>/edit" class="btn btn-primary">Edit </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }%> 
+    </ul>
+
