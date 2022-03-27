@@ -10,10 +10,13 @@ const passportLocalMongoose = require("passport-local-mongoose");
 
 
 
+const axios = require('axios')
+const fs = require('fs')
 
 const Worker  = require('./models/worker')
 const Contractor = require('./models/contractor')
 const Project = require('./models/project')
+const Attendence = require('./models/attendence')
 
 const methodOverride = require('method-override');
 const getGeoData = require('./mapbox/helper');
@@ -218,6 +221,26 @@ app.delete('/contractors/:id',async(req,res)=>{
 
 //images
 
+
+
+// camera module
+app.get('/scanner', (req, res)=>{
+    res.render('camera')
+})
+app.post('/scanner/:id', async (req, res)=>{
+    // save worker to attendence
+    console.log(req.params);
+    console.log(Date());
+    const {id} = req.params
+
+    const worker = await Worker.findById(id)
+    const attendence = new Attendence()
+    attendence.date = Date()
+    attendence.worker = worker
+    await attendence.save()
+
+    res.send('DONE')
+})
 
 
 

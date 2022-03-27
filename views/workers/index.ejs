@@ -21,6 +21,7 @@
                             <h5 class="card-title"><%= worker.name %> </h5>
                             <p class="card-text"><%= worker.age %> </p>
                             <a href="/workers/<%= worker._id %>/edit" class="btn btn-primary">Edit </a>
+                            <a href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<%= worker._id %>" class="btn btn-primary">Get QR </a>
                         </div>
                     </div>
                 </div>
