@@ -65,7 +65,11 @@ app.use(passport.session());
   passport.serializeUser(User.serializeUser());
   passport.deserializeUser(User.deserializeUser());
 
-
+app.use((req, res, next)=>{
+  console.log(req.user);
+  res.locals.currentUser = req.user
+  next()
+})
 
 app.get("/",(req,res)=>{
     res.render('home');
@@ -91,11 +95,14 @@ app.get("/login", function (req, res) {
         if (err) {
           return next(err);
         }
-        return res.redirect("/workers");
+        return res.redirect("/");
       });
     })(req, res, next);
   });
-
+app.get('/logout', (req, res)=>{
+  req.logout()
+  res.redirect('/')
+})
 
 
 app.get("/workers",async(req,res)=>{
@@ -185,7 +192,7 @@ app.post('/projects', async (req, res)=>{
 
 app.get("/contractors",async(req,res)=>{
     const contractors = await Contractor.find({})
-    res.render('contractors/index',{contractors})
+    res.render('contractors/index', {contractors})
 })
 app.get('/contractors/new',(req,res)=>{
     res.render('contractors/new');
