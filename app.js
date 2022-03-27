@@ -4,6 +4,12 @@ const mongoose  = require('mongoose');
 const app = express();
 const path = require('path')
 const ejsMate = require('ejs-mate')
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
+
+
+
 
 const Worker  = require('./models/worker')
 const Contractor = require('./models/contractor')
@@ -30,10 +36,64 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
+app.use(
+    session({
+      secret: process.env.SECRET,
+      resave: false,
+      saveUninitialized: false,
+    })
+  );
+
+  app.use(passport.initialize());
+app.use(passport.session());
+
+  const userSchema = new mongoose.Schema({
+    username: String,
+    email: String,
+    password: String,
+  });
+  
+  userSchema.plugin(passportLocalMongoose);
+  
+  const User = new mongoose.model("User", userSchema);
+  
+  passport.use(User.createStrategy());
+  
+  passport.serializeUser(User.serializeUser());
+  passport.deserializeUser(User.deserializeUser());
+
+
 
 app.get("/",(req,res)=>{
     res.render('home');
 });
+
+app.get("/login", function (req, res) {
+    res.render("login");
+  });
+
+  app.post("/login", (req, res, next) => {
+    const user = new User({
+      username: req.body.username,
+      password: req.body.password,
+    });
+    passport.authenticate("local", function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.render("login");
+      }
+      req.logIn(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect("/workers");
+      });
+    })(req, res, next);
+  });
+
+
 
 app.get("/workers",async(req,res)=>{
     const workers = await Worker.find({})
@@ -45,7 +105,7 @@ app.get('/workers/new',(req,res)=>{
 app.post('/workers',async(req,res)=>{
     const worker = new Worker(req.body.worker)
     await worker.save();
-    console.log(req.body);
+    console.log(worker);
     res.redirect(`/workers`)
 })
 
@@ -71,12 +131,33 @@ app.delete('/workers/:id',async(req,res)=>{
     res.redirect('/workers');
 })
 
+app.get("/signup", function (req, res) {
+    res.render("signup");
+  });
+  
+  app.post("/signup", (req, res) => {
+    User.register(
+      {
+        username: req.body.username,
+        email: req.body.email,
+      },
+      req.body.password,
+      (err, user) => {
+        if (err) {
+          console.log(err);
+          res.render("signup");
+        } else {
+          passport.authenticate("local")(req, res, () => {
+            res.redirect("/workers");
+          });
+        }
+      }
+    );
+  });
 
+// app.post("/login",(req,res)=>{
 
-// -------------------------------------------------------------
-app.get("/",(req,res)=>{
-    res.render('home');
-});
+// })
 
 
 app.get('/projects', async (req, res)=>{
@@ -135,8 +216,11 @@ app.delete('/contractors/:id',async(req,res)=>{
     res.redirect('/contractors');
 })
 
+//images
 
 
-app.listen(8000,()=>{
+
+
+app.listen(3000,()=>{
     console.log("serving on port 8000")
 })

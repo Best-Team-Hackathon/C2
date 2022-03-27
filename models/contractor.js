@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+var fs = require('fs');
+var multer = require('multer');
 
 const contractorsSchema = new mongoose.Schema({
     name: {
@@ -20,7 +22,12 @@ const contractorsSchema = new mongoose.Schema({
     phone:{
         type: Number,
         required: true
-    }
+    },
+    // img: { 
+    //     data: Buffer, 
+    //     contentType: String 
+    //  }
+
     
 })
 
